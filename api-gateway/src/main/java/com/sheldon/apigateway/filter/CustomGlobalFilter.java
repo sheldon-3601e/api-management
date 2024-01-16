@@ -64,6 +64,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // 取出请求体和响应体
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
@@ -94,7 +95,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         String timestamp = headers.getFirst("timestamp");
         String sign = headers.getFirst("sign");
 
-        // 实际情况现需要到数据库查询
+        // 查询用户信息是否存在
         User invokeUser = null;
         try {
             invokeUser = innerUserService.getInvokeUser(accessKey);
@@ -107,9 +108,9 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
 //        if (!"sheldon".equals(accessKey)) {
 //            return handleError(response, HttpStatus.FORBIDDEN);
 //        }
+        // 需要验证时间戳，时间不超过五分钟
         long currentTimestamp = System.currentTimeMillis();
         long FIVE_MINUTES = 5 * 60 * 1000L;
-        // 需要验证时间戳，时间不超过五分钟
         if (timestamp == null || Long.parseLong(timestamp) + FIVE_MINUTES < currentTimestamp) {
             return handleError(response, HttpStatus.FORBIDDEN);
         }
@@ -125,7 +126,6 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         }
 
         // 4.判断请求接口是否存在
-        // TODO 从数据库中查询接口是否存在
         InterfaceInfo invokeInterfaceInfo = null;
         try {
             invokeInterfaceInfo = innerInterfaceInfoService.getInvokeInterfaceInfo(path, method);
@@ -179,7 +179,6 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
                             // 对响应体进行处理，例如记录日志
                             return super.writeWith(fluxBody.map(dataBuffer -> {
                                 // 7.调用成功，调用次数+1
-                                // TODO 调用次数+1
                                 try {
                                     innerUserInterfaceInfoService.invokeCount(userId, interfaceInfoId);
                                 } catch (Exception e) {

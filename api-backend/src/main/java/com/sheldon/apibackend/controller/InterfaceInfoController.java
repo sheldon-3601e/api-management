@@ -10,9 +10,7 @@ import com.sheldon.apibackend.common.ResultUtils;
 import com.sheldon.apibackend.constant.UserConstant;
 import com.sheldon.apibackend.exception.BusinessException;
 import com.sheldon.apibackend.exception.ThrowUtils;
-import com.sheldon.apibackend.model.dto.interfaceInfo.InterfaceInfoAddRequest;
-import com.sheldon.apibackend.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
-import com.sheldon.apibackend.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
+import com.sheldon.apibackend.model.dto.interfaceInfo.*;
 import com.sheldon.apibackend.service.InterfaceInfoService;
 import com.sheldon.apibackend.service.UserService;
 import com.sheldon.apiclientsdk.client.ApiClient;
@@ -175,7 +173,7 @@ public class InterfaceInfoController {
      */
     @PostMapping("/online")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody com.sheldon.apibackend.model.dto.interfaceInfo.IdRequest idRequest, HttpServletRequest request) {
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
 
         Long id = idRequest.getId();
 
@@ -213,7 +211,7 @@ public class InterfaceInfoController {
      */
     @PostMapping("/offline")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody com.sheldon.apibackend.model.dto.interfaceInfo.IdRequest idRequest, HttpServletRequest request) {
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest, HttpServletRequest request) {
 
         Long id = idRequest.getId();
 
@@ -242,13 +240,13 @@ public class InterfaceInfoController {
      * @return
      */
     @PostMapping("/invoke")
-    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody com.sheldon.apibackend.model.dto.interfaceInfo.InterfaceInfoInvokeRequest interfaceInfoInvokeRequest, HttpServletRequest request) {
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest, HttpServletRequest request) {
 
         Long id = interfaceInfoInvokeRequest.getId();
         String requestParams = interfaceInfoInvokeRequest.getRequestParams();
 
         // 判断参数是否正确
-        if (interfaceInfoInvokeRequest == null || id <= 0) {
+        if (id <= 0 || StringUtils.isBlank(requestParams)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
@@ -261,6 +259,7 @@ public class InterfaceInfoController {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口已下线");
         }
 
+        // 查询当前的登录用户
         User loginUser = userService.getLoginUser(request);
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();

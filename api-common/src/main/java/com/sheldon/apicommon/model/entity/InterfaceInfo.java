@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * my_api.`interface_info`
+ * @author 26483
  * @TableName interface_info
  */
 @TableName(value ="interface_info")

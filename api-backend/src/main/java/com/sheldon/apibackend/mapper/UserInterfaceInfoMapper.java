@@ -2,6 +2,9 @@ package com.sheldon.apibackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sheldon.apicommon.model.entity.UserInterfaceInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author sheldon
@@ -10,6 +13,8 @@ import com.sheldon.apicommon.model.entity.UserInterfaceInfo;
  * @Entity com.sheldon.apibackend.model.entity.UserInterfaceInfo
  */
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
+
+    List<UserInterfaceInfo> listInterfaceInvokeTop(@Param("limit") Integer limit);
 
 }
 
