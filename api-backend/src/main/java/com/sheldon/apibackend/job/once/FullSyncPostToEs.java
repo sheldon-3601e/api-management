@@ -3,8 +3,6 @@ package com.sheldon.apibackend.job.once;
 import cn.hutool.core.collection.CollUtil;
 import com.sheldon.apibackend.esdao.PostEsDao;
 import com.sheldon.apibackend.model.dto.post.PostEsDTO;
-import com.sheldon.apibackend.service.PostService;
-import com.sheldon.apicommon.model.entity.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 

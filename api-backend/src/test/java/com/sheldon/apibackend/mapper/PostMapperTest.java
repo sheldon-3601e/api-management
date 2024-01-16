@@ -1,6 +1,5 @@
 package com.sheldon.apibackend.mapper;
 
-import com.sheldon.apicommon.model.entity.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

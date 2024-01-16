@@ -2,8 +2,6 @@ package com.sheldon.apibackend.esdao;
 
 import com.sheldon.apibackend.model.dto.post.PostEsDTO;
 import com.sheldon.apibackend.model.dto.post.PostQueryRequest;
-import com.sheldon.apibackend.service.PostService;
-import com.sheldon.apicommon.model.entity.Post;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;

@@ -2,7 +2,6 @@ package com.sheldon.apibackend.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sheldon.apibackend.model.dto.post.PostQueryRequest;
-import com.sheldon.apicommon.model.entity.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
