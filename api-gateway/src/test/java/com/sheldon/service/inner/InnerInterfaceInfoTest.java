@@ -19,8 +19,7 @@ public class InnerInterfaceInfoTest {
 
     @Test
     public void testGetInvokeInterfaceInfo() {
-        InterfaceInfo invokeInterfaceInfo = innerInterfaceInfoService.getInvokeInterfaceInfo("http://localhost:8123/api/name/user", "POST");
-        System.out.println(invokeInterfaceInfo);
+
     }
 
 

@@ -53,8 +53,6 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
     @DubboReference
     private InnerUserInterfaceInfoService innerUserInterfaceInfoService;
 
-    private static final String INTERFACE_HOST = "http://localhost:8123";
-
     /**
      * 用户统一鉴权
      *
@@ -68,12 +66,12 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        String path = INTERFACE_HOST + request.getPath().value();
+        String url = request.getPath().value();
         String method = request.getMethod().toString();
         // 1.请求日志
         log.info("CustomGlobalFilter...");
         log.info("请求标识: {}", request.getId());
-        log.info("请求地址: {}", path);
+        log.info("请求地址: {}", url);
         log.info("请求方法: {}", method);
         log.info("请求参数: {}", request.getQueryParams());
         String sourceIp = request.getLocalAddress().getHostString();
@@ -89,6 +87,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         // 3.用户鉴权
         HttpHeaders headers = request.getHeaders();
         String accessKey = headers.getFirst("accessKey");
+        String interfaceInfoId = headers.getFirst("interfaceInfoId");
         // String secretKey = request.getHeader("secretKey");
         String nonce = headers.getFirst("nonce");
         String body = headers.getFirst("body");
@@ -128,7 +127,9 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         // 4.判断请求接口是否存在
         InterfaceInfo invokeInterfaceInfo = null;
         try {
-            invokeInterfaceInfo = innerInterfaceInfoService.getInvokeInterfaceInfo(path, method);
+            if (interfaceInfoId != null) {
+                invokeInterfaceInfo = innerInterfaceInfoService.getInvokeInterfaceInfo(Long.valueOf(interfaceInfoId));
+            }
         } catch (Exception e) {
             log.error("getInterfaceInfo error", e);
         }

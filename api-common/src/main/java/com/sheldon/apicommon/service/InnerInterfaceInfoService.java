@@ -18,5 +18,5 @@ public interface InnerInterfaceInfoService {
      * @param method
      * @return
      */
-    InterfaceInfo getInvokeInterfaceInfo(String url, String method);
+    InterfaceInfo getInvokeInterfaceInfo(Long interfaceInfoId);
 }

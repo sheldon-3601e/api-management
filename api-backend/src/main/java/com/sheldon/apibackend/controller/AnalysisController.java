@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @Author 26483
  * @Date 2024/1/16 11:29
  * @Version 1.0
- * @Description TODO
+ * @Description 数据分析接口
  */
 @RestController
 @RequestMapping("/analysis")

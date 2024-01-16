@@ -189,9 +189,11 @@ public class InterfaceInfoController {
         }
 
         // 判断该接口是否可以调用
+        String interfaceInfoId = String.valueOf(interfaceInfo.getId());
+        String url = interfaceInfo.getUrl();
         com.sheldon.apiclientsdk.model.User user = new com.sheldon.apiclientsdk.model.User();
         user.setUsername("sheldon");
-        String res = apiClient.postJson(user);
+        String res = apiClient.postJson(user, url, interfaceInfoId);
         if (StringUtils.isBlank(res)) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口调用失败");
         }
@@ -264,10 +266,13 @@ public class InterfaceInfoController {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
 
+        // 调用接口
+        Long interfaceInfoId = interfaceInfo.getId();
+        String url = interfaceInfo.getUrl();
         ApiClient apiClient = new ApiClient(accessKey, secretKey);
         Gson gson = new Gson();
         com.sheldon.apiclientsdk.model.User user = gson.fromJson(requestParams, com.sheldon.apiclientsdk.model.User.class);
-        String usernameByPost = apiClient.postJson(user);
+        String usernameByPost = apiClient.postJson(user, url, String.valueOf(interfaceInfoId));
         return ResultUtils.success(usernameByPost);
     }
 

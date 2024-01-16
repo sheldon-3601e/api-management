@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @Author sheldon
  * @Date 2024/1/9 15:14
  * @Version 1.0
- * @Description TODO
+ * @Description IdRequest
  */
 @Data
 public class IdRequest implements Serializable {

@@ -25,13 +25,12 @@ public class InnerInterfaceInfoImpl implements InnerInterfaceInfoService {
     private InterfaceInfoMapper interfaceInfoMapper;
 
     @Override
-    public InterfaceInfo getInvokeInterfaceInfo(String url, String method) {
-        if (StringUtils.isAnyBlank(url, method)) {
+    public InterfaceInfo getInvokeInterfaceInfo(Long interfaceInfoId) {
+        if (interfaceInfoId == null || interfaceInfoId <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("url", url);
-        queryWrapper.eq("method", method);
+        queryWrapper.eq("id", interfaceInfoId);
         InterfaceInfo interfaceInfo = interfaceInfoMapper.selectOne(queryWrapper);
         return interfaceInfo;
     }
