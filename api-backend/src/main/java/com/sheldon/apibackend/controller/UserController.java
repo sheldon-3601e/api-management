@@ -1,5 +1,6 @@
 package com.sheldon.apibackend.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sheldon.apibackend.annotation.AuthCheck;
 import com.sheldon.apibackend.common.BaseResponse;
@@ -249,10 +250,12 @@ public class UserController {
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<User>> listUserByPage(@RequestBody UserQueryRequest userQueryRequest,
                                                    HttpServletRequest request) {
+
         long current = userQueryRequest.getCurrent();
         long size = userQueryRequest.getPageSize();
+        QueryWrapper<User> queryWrapper = userService.getQueryWrapper(userQueryRequest);
         Page<User> userPage = userService.page(new Page<>(current, size),
-                userService.getQueryWrapper(userQueryRequest));
+                queryWrapper);
         return ResultUtils.success(userPage);
     }
 

@@ -49,7 +49,7 @@ server:
     # cookie 30 天过期
     session:
       cookie:
-        max-age: 2592000
+        max-age: 1800
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
