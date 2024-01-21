@@ -89,6 +89,7 @@ public class InterfaceInfoController {
         // 判断是否存在
         InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
         ThrowUtils.throwIf(oldInterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
+        ThrowUtils.throwIf(oldInterfaceInfo.getStatue() == 1, ErrorCode.SYSTEM_ERROR);
         // 仅本人或管理员可删除
         if (!oldInterfaceInfo.getUserId().equals(user.getId()) && !userService.isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
