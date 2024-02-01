@@ -1,154 +1,159 @@
-# SpringBoot 项目初始模板
+<!-- PROJECT LOGO -->
 
-[toc]
+<div align="center">
+    <img src="./images/api_logo.svg" alt="Logo" width="100" height="100">
+    <h3 align="center">欣享云API</h3>
+    <p align="center">
+        基于 Spring Boot + Dubbo + React 的全栈微服务项目。
+        <br />
+        本项目是一个面向开发者的 API 平台，提供 API 接口供开发者调用。
+    </p>
+</div>
+<!-- TABLE OF CONTENTS -->
 
-## 模板特点
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#关于项目">关于项目</a>
+      <ul>
+        <li><a href="#项目架构图">项目架构图</a></li>
+        <li><a href="#技术栈">技术栈</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#用法">用法</a>
+      <ul>
+        <li><a href="#演示视频">演示视频</a></li>
+        <li><a href="#项目截图">项目截图</a></li>
+      </ul>
+    </li>
+    <li><a href="#快速开始">快速开始</a>
+      <ul>
+        <li><a href="#先决条件">先决条件</a></li>
+        <li><a href="#安装">安装</a></li>
+      </ul>
+      </li>
+    <li><a href="#联系方式">联系方式</a></li>
+  </ol>
+</details>
 
-### 主流框架 & 特性
+## 关于项目
 
-- Spring Boot 2.7.x（贼新）
-- Spring MVC
-- MyBatis + MyBatis Plus 数据访问（开启分页）
-- Spring Boot 调试工具和项目处理器
-- Spring AOP 切面编程
-- Spring Scheduler 定时任务
-- Spring 事务注解
+### 项目架构图
 
-### 数据存储
+<div align="center">
+    <img src="./images/api_architecture.svg" alt="Architecture" width="600" height="600">
+</div>
+<div>
+    <p>
+        该项目共有五个模块：
+    <ul>
+        <li>用户前端模块：供开发者游览所有的接口，查看接口详细信息，并支持在线调用接口</li>
+        <li>后台管理模块：管理员可以管理接口等功能，以及查看用户使用接口的情况，例如使用次数、错误调用等</li>
+        <li>API网关模块：负责接口的流量控制、计费统计、安全防护等功能，提供一致的接口服务质量，和简化API的管理工作</li>
+        <li>客户端SDK模块：提供一个简化的工具包，使得开发者可以更方便的调用接口，例如提供了预封装的HTTP请求方法，接口调用接口等</li>
+        <li>模拟接口模块：提供各种模拟接口供开发者使用和测试</li>
+    </ul>
+    </p>
+    <p align="center">
+        <a href="https://github.com/sheldon-3601e/api-management">后端模块</a>
+        ·
+        <a href="https://github.com/sheldon-3601e/api-frontend">前端模块</a>
+    </p>
 
+</div>
+
+### 技术栈
+
+#### 前端
+
+- React 18
+- Ant Design Pro 5.x 脚手架 
+- Ant Design & Procomponents 组件库 
+- Umi 4 前端框架 
+- OpenAPI 前端代码生成
+
+#### 后端
+
+- Spring Boot
 - MySQL 数据库
-- Redis 内存数据库
-- Elasticsearch 搜索引擎
-- 腾讯云 COS 对象存储
+- MyBatis-Plus 及 MyBatis X 自动生成
+- API 签名认证（Http 调用）
+- Spring Boot Starter（SDK 开发）
+- Dubbo 分布式（RPC、Nacos） 
+- Swagger + Knife4j 接口文档生成
+- Spring Cloud Gateway 微服务网关 
+- Hutool、Apache Common Utils、Gson 等工具库
 
-### 工具类
 
-- Easy Excel 表格处理
-- Hutool 工具库
-- Apache Commons Lang3 工具类
-- Lombok 注解
+## 用法
 
-### 业务特性
+### 演示视频
 
-- Spring Session Redis 分布式登录
-- 全局请求响应拦截器（记录日志）
-- 全局异常处理器
-- 自定义错误码
-- 封装通用响应类
-- Swagger + Knife4j 接口文档
-- 自定义权限注解 + 全局校验
-- 全局跨域处理
-- 长整数丢失精度解决
-- 多环境配置
+[演示视频](https://github.com/sheldon-3601e/BI-backend/assets/120535868/78219988-df88-4645-9487-9ef763915e3e
+)
 
-## 业务功能
+### 网站截图
 
-- 提供示例 SQL（用户、帖子、帖子点赞、帖子收藏表）
-- 用户登录、注册、注销、更新、检索、权限管理
-- 帖子创建、删除、编辑、更新、数据库检索、ES 灵活检索
-- 帖子点赞、取消点赞
-- 帖子收藏、取消收藏、检索已收藏帖子
-- 帖子全量同步 ES、增量同步 ES 定时任务
-- 支持微信开放平台登录
-- 支持微信公众号订阅、收发消息、设置菜单
-- 支持分业务的文件上传
+![](./images/Snipaste_2024-02-02_03-31-59.svg)
 
-### 单元测试
+![](./images/Snipaste_2024-02-02_03-33-21.svg)
 
-- JUnit5 单元测试
-- 示例单元测试类
+![](./images/Snipaste_2024-02-02_03-33-05.svg)
 
-### 架构设计
+## 快速开始
 
-- 合理分层
+这是一个示例，说明如何在本地设置项目的说明。若要启动并运行本地副本，请按照以下简单示例步骤操作。
 
-## 快速上手
+### 先决条件
 
-> 所有需要修改的地方都标记了 `todo`
+列出使用该软件所需的内容
 
-### MySQL 数据库
+- npm@16.20.2
+- MySQL@8.1.0
+- Redis@3.2.1
+- Nacos@2.2.3
 
-1）修改 `application.yml` 的数据库配置
+### 安装
 
-```yml
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/my_db
-    username: root
-    password: 123456
-```
+下面是一个示例，说明如何安装和设置应用。
 
-2）执行 `sql/create_table.sql` 中的数据库语句，自动创建库表
+1. 克隆项目到本地
 
-3）启动项目，访问 `http://localhost:8101/api/doc.html` 即可打开接口文档，不需要写前端就能在线调试接口了~
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
 
-![](doc/swagger.png)
+2. 安装依赖s
 
-### Redis 分布式登录
+   ```sh
+   npm install
+   ```
 
-1）修改 `application.yml` 的 Redis 配置
+3. 在图表分析模块中`application.yml`中，填入星火大模型的参数
 
-```yml
-spring:
-  redis:
-    database: 1
-    host: localhost
-    port: 6379
-    timeout: 5000
-    password: 123456
-```
+   ```yml
+   appid: xxx
+   apiKey: xxx
+   apiSecret: xxx
+   ```
 
-2）修改 `application.yml` 中的 session 存储方式：
+4. 启动 Redis 和 RabbitMQ 服务
 
-```yml
-spring:
-  session:
-    store-type: redis
-```
+5. 分别启动各个模块
 
-3）移除 `MainApplication` 类开头 `@SpringBootApplication` 注解内的 exclude 参数：
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-修改前：
 
-```java
-@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
-```
 
-修改后：
+<!-- CONTACT -->
 
-```java
-@SpringBootApplication
-```
+## 联系方式
 
-### Elasticsearch 搜索引擎
+Your Name - Sheldon - email@Sheldon_kkk@126.com
 
-1）修改 `application.yml` 的 Elasticsearch 配置
+Personal homepage: [https://github.com/sheldon-3601e](https://github.com/sheldon-3601e)
 
-```yml
-spring:
-  elasticsearch:
-    uris: http://localhost:9200
-    username: root
-    password: 123456
-```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-2）复制 `sql/post_es_mapping.json` 文件中的内容，通过调用 Elasticsearch 的接口或者 Kibana Dev Tools 来创建索引（相当于数据库建表）
-
-```
-PUT post_v1
-{
- 参数见 sql/post_es_mapping.json 文件
-}
-```
-
-这步不会操作的话需要补充下 Elasticsearch 的知识，或者自行百度一下~
-
-3）开启同步任务，将数据库的帖子同步到 Elasticsearch
-
-找到 job 目录下的 `FullSyncPostToEs` 和 `IncSyncPostToEs` 文件，取消掉 `@Component` 注解的注释，再次执行程序即可触发同步：
-
-```java
-// todo 取消注释开启任务
-//@Component
-```
