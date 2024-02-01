@@ -7,7 +7,6 @@ import com.sheldon.apibackend.common.BaseResponse;
 import com.sheldon.apibackend.common.DeleteRequest;
 import com.sheldon.apibackend.common.ErrorCode;
 import com.sheldon.apibackend.common.ResultUtils;
-import com.sheldon.apibackend.config.WxOpenConfig;
 import com.sheldon.apibackend.constant.UserConstant;
 import com.sheldon.apibackend.exception.BusinessException;
 import com.sheldon.apibackend.exception.ThrowUtils;
@@ -17,9 +16,6 @@ import com.sheldon.apicommon.model.entity.User;
 import com.sheldon.apicommon.model.vo.LoginUserVO;
 import com.sheldon.apicommon.model.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
-import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
-import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.DigestUtils;
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static com.sheldon.apibackend.service.impl.UserServiceImpl.SALT;
@@ -45,9 +40,6 @@ public class UserController {
 
     @Resource
     private UserService userService;
-
-    @Resource
-    private WxOpenConfig wxOpenConfig;
 
     // region 登录相关
 
@@ -89,29 +81,6 @@ public class UserController {
         }
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
         return ResultUtils.success(loginUserVO);
-    }
-
-    /**
-     * 用户登录（微信开放平台）
-     */
-    @GetMapping("/login/wx_open")
-    public BaseResponse<LoginUserVO> userLoginByWxOpen(HttpServletRequest request, HttpServletResponse response,
-                                                       @RequestParam("code") String code) {
-        WxOAuth2AccessToken accessToken;
-        try {
-            WxMpService wxService = wxOpenConfig.getWxMpService();
-            accessToken = wxService.getOAuth2Service().getAccessToken(code);
-            WxOAuth2UserInfo userInfo = wxService.getOAuth2Service().getUserInfo(accessToken, code);
-            String unionId = userInfo.getUnionId();
-            String mpOpenId = userInfo.getOpenid();
-            if (StringUtils.isAnyBlank(unionId, mpOpenId)) {
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, "登录失败，系统错误");
-            }
-            return ResultUtils.success(userService.userLoginByMpOpen(userInfo, request));
-        } catch (Exception e) {
-            log.error("userLoginByWxOpen error", e);
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "登录失败，系统错误");
-        }
     }
 
     /**
@@ -257,31 +226,6 @@ public class UserController {
         Page<User> userPage = userService.page(new Page<>(current, size),
                 queryWrapper);
         return ResultUtils.success(userPage);
-    }
-
-    /**
-     * 分页获取用户封装列表
-     *
-     * @param userQueryRequest
-     * @param request
-     * @return
-     */
-    @PostMapping("/list/page/vo")
-    public BaseResponse<Page<UserVO>> listUserVOByPage(@RequestBody UserQueryRequest userQueryRequest,
-                                                       HttpServletRequest request) {
-        if (userQueryRequest == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        long current = userQueryRequest.getCurrent();
-        long size = userQueryRequest.getPageSize();
-        // 限制爬虫
-        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        Page<User> userPage = userService.page(new Page<>(current, size),
-                userService.getQueryWrapper(userQueryRequest));
-        Page<UserVO> userVOPage = new Page<>(current, size, userPage.getTotal());
-        List<UserVO> userVO = userService.getUserVO(userPage.getRecords());
-        userVOPage.setRecords(userVO);
-        return ResultUtils.success(userVOPage);
     }
 
     // endregion

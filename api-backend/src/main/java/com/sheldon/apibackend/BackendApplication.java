@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author <a href="https://github.com/sheldon-3601e">Sheldon</a>
  * @from <a href="https://github.com/sheldon-3601e">github</a>
  */
-// todo 如需开启 Redis，须移除 exclude 中的内容
+
 @SpringBootApplication
 @MapperScan("com.sheldon.apibackend.mapper")
 @EnableDubbo

@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @Author 26483
  * @Date 2024/1/15 13:06
  * @Version 1.0
- * @Description TODO
+ * @Description InnerUserServiceImpl
  */
 @DubboService
 public class InnerUserServiceImpl implements InnerUserService {

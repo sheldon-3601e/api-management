@@ -88,9 +88,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         HttpHeaders headers = request.getHeaders();
         String accessKey = headers.getFirst("accessKey");
         String interfaceInfoId = headers.getFirst("interfaceInfoId");
-        // String secretKey = request.getHeader("secretKey");
         String nonce = headers.getFirst("nonce");
-        String body = headers.getFirst("body");
         String timestamp = headers.getFirst("timestamp");
         String sign = headers.getFirst("sign");
 
@@ -98,18 +96,16 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         User invokeUser = null;
         try {
             invokeUser = innerUserService.getInvokeUser(accessKey);
+
         } catch (Exception e) {
             log.error("invokeUser error", e);
         }
         if (invokeUser == null) {
             return handleError(response, HttpStatus.FORBIDDEN);
         }
-//        if (!"sheldon".equals(accessKey)) {
-//            return handleError(response, HttpStatus.FORBIDDEN);
-//        }
         // 需要验证时间戳，时间不超过五分钟
         long currentTimestamp = System.currentTimeMillis();
-        long FIVE_MINUTES = 5 * 60 * 1000L;
+        final long FIVE_MINUTES = 5 * 60 * 1000L;
         if (timestamp == null || Long.parseLong(timestamp) + FIVE_MINUTES < currentTimestamp) {
             return handleError(response, HttpStatus.FORBIDDEN);
         }
@@ -119,7 +115,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         }
         // 需要验证sign，sign需要根据 body 和 secretKey 生成, secretKey也需要到数据库查询
         String secretKey = invokeUser.getSecretKey();
-        String serverSign = genSign(body, secretKey);
+        String serverSign = genSign(timestamp, nonce, secretKey);
         if (!serverSign.equals(sign)) {
             return handleError(response, HttpStatus.FORBIDDEN);
         }
@@ -185,14 +181,6 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
                                 } catch (Exception e) {
                                     log.error("invokeCount error", e);
                                 }
-//                                if (statusCode == HttpStatus.OK) {
-//                                    log.info("调用成功");
-//                                    return filter;
-//                                } else {
-//                                    // 8.调用失败，返回一个规范的错误码
-//                                    log.info("调用失败");
-//                                    return handleError(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//                                }
                                 byte[] content = new byte[dataBuffer.readableByteCount()];
                                 dataBuffer.read(content);
                                 DataBufferUtils.release(dataBuffer); // 释放掉内存

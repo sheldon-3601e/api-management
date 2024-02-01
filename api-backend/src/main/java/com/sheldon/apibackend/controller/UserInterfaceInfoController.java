@@ -12,12 +12,12 @@ import com.sheldon.apibackend.exception.ThrowUtils;
 import com.sheldon.apibackend.model.dto.userInterfaceInfo.UserInterfaceInfoAddRequest;
 import com.sheldon.apibackend.model.dto.userInterfaceInfo.UserInterfaceInfoQueryRequest;
 import com.sheldon.apibackend.model.dto.userInterfaceInfo.UserInterfaceInfoUpdateRequest;
+import com.sheldon.apibackend.model.dto.userInterfaceInfo.UserInterfaceInfoDetailRequest;
 import com.sheldon.apibackend.service.UserInterfaceInfoService;
 import com.sheldon.apibackend.service.UserService;
 import com.sheldon.apiclientsdk.client.ApiClient;
 import com.sheldon.apicommon.model.entity.User;
 import com.sheldon.apicommon.model.entity.UserInterfaceInfo;
-import com.sheldon.apicommon.service.InnerUserInterfaceInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -161,6 +161,29 @@ public class UserInterfaceInfoController {
                 userInterfaceInfoService.getQueryWrapper(userInterfaceInfoQueryRequest));
 
         return ResultUtils.success(userInterfaceInfoPage);
+    }
+
+    /**
+     * 获取总调用次数和剩余调用次数
+     *
+     * @param userInterfaceInfoDetailRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/get/numbers")
+    public BaseResponse<UserInterfaceInfo> queryTotalAndRemain(@RequestBody UserInterfaceInfoDetailRequest userInterfaceInfoDetailRequest,
+                                                                             HttpServletRequest request) {
+
+        User loginUser = userService.getLoginUser(request);
+        Long userId = loginUser.getId();
+        Long interfaceInfoId = userInterfaceInfoDetailRequest.getInterfaceInfoId();
+
+        // 校验参数
+        ThrowUtils.throwIf(interfaceInfoId == null || interfaceInfoId < 0, ErrorCode.PARAMS_ERROR);
+
+        UserInterfaceInfo userInterfaceInfo = userInterfaceInfoService.selectOne(userId, interfaceInfoId);
+
+        return ResultUtils.success(userInterfaceInfo);
     }
 
 }

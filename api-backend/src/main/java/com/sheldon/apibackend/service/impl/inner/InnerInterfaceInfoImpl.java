@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @Author 26483
  * @Date 2024/1/16 1:37
  * @Version 1.0
- * @Description TODO
+ * @Description InnerInterfaceInfoImpl
  */
 @DubboService
 public class InnerInterfaceInfoImpl implements InnerInterfaceInfoService {

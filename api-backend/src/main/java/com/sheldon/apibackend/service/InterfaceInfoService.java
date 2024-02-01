@@ -32,14 +32,4 @@ public interface InterfaceInfoService extends IService<InterfaceInfo> {
      */
     QueryWrapper<InterfaceInfo> getQueryWrapper(InterfaceInfoQueryRequest interfaceInfoQueryRequest);
 
-    /**
-     * 分页获取帖子封装
-     *
-     * @param postPage
-     * @param request
-     * @return
-     */
-    Page<InterfaceInfoVO> getInterfaceInfoVOPage(Page<InterfaceInfo> interfaceInfoPage, HttpServletRequest request);
-
-
 }

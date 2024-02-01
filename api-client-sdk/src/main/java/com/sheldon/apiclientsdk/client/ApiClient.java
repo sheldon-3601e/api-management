@@ -1,21 +1,20 @@
 package com.sheldon.apiclientsdk.client;
 
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.sheldon.apiclientsdk.model.User;
+import com.sheldon.apiclientsdk.service.BaseService;
 import com.sheldon.apiclientsdk.utils.SignUtils;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @ClassName ApiClient
  * @Author 26483
  * @Date 2024/1/8 15:06
  * @Version 1.0
- * @Description TODO
+ * @Description ApiClient
  */
 public class ApiClient {
 
@@ -27,6 +26,13 @@ public class ApiClient {
     public ApiClient(String accessKey, String secretKey) {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
+    }
+
+    public String doInvoke(String body, String interfaceInfoId) {
+        InterfaceInfoServiceRegistry interfaceInfoServiceRegistry = new InterfaceInfoServiceRegistry();
+        BaseService interfaceInfoService = interfaceInfoServiceRegistry.getInterfaceInfoService(interfaceInfoId);
+        String result = interfaceInfoService.doInvoke(body, interfaceInfoId, accessKey, secretKey);
+        return result;
     }
 
     public String getName(String name) {
@@ -48,22 +54,12 @@ public class ApiClient {
     }
 
 
-    private Map<String, String> getHeaders(String body, String interfaceInfoId) {
-        HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("accessKey", accessKey);
-        headerMap.put("interfaceInfoId", interfaceInfoId);
-        // headerMap.put("secretKey", secretKey);
-         headerMap.put("nonce", RandomUtil.randomNumbers(5));
-         headerMap.put("body", body);
-         headerMap.put("timestamp", String.valueOf(System.currentTimeMillis()));
-         headerMap.put("sign", SignUtils.genSign(body, secretKey));
-        return headerMap;
-    }
+
 
     public String postJson(User user, String url, String interfaceInfoId) {
         String json = JSONUtil.toJsonStr(user);
         String result = HttpRequest.post(GATEWAY_URL + url)
-                .addHeaders(getHeaders(json, interfaceInfoId))
+                .addHeaders(SignUtils.getHeaders(json, interfaceInfoId, accessKey, secretKey))
                 .body(json)
                 .execute().body();
         return result;

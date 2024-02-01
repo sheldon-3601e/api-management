@@ -37,4 +37,5 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
      */
     Boolean invokeCount(Long userId, Long interfaceInfoId);
 
+    UserInterfaceInfo selectOne(Long userId, Long interfaceInfoId);
 }

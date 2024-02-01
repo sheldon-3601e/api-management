@@ -7,7 +7,7 @@ import com.sheldon.apicommon.model.entity.InterfaceInfo;
  * @Author 26483
  * @Date 2024/1/16 1:36
  * @Version 1.0
- * @Description TODO
+ * @Description InnerInterfaceInfoService
  */
 public interface InnerInterfaceInfoService {
 

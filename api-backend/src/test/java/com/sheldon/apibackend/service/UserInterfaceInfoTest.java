@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * @Author 26483
  * @Date 2024/1/10 14:06
  * @Version 1.0
- * @Description TODO
+ * @Description UserInterfaceInfoTest
  */
 @SpringBootTest
 public class UserInterfaceInfoTest {

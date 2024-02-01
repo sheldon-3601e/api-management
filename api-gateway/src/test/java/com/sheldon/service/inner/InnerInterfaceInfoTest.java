@@ -10,17 +10,10 @@ import org.junit.jupiter.api.Test;
  * @Author 26483
  * @Date 2024/1/16 1:00
  * @Version 1.0
- * @Description TODO
+ * @Description InnerInterfaceInfoTest
  */
-public class InnerInterfaceInfoTest {
+class InnerInterfaceInfoTest {
 
-    @DubboReference
-    private InnerInterfaceInfoService innerInterfaceInfoService;
-
-    @Test
-    public void testGetInvokeInterfaceInfo() {
-
-    }
 
 
 }

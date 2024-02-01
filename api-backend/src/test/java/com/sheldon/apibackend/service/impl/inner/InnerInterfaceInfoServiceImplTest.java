@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @Author 26483
  * @Date 2024/1/16 1:01
  * @Version 1.0
- * @Description TODO
+ * @Description InnerInterfaceInfoServiceImplTest
  */
 class InnerInterfaceInfoServiceImplTest {
 
