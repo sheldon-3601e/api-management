@@ -2,7 +2,6 @@ package com.sheldon.sheldonapi;
 
 
 import com.sheldon.apiclientsdk.client.ApiClient;
-import com.sheldon.apiclientsdk.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
