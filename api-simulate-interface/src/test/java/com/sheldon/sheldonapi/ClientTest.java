@@ -1,5 +1,6 @@
 package com.sheldon.sheldonapi;
 
+import cn.hutool.core.collection.ListUtil;
 import com.sheldon.apiinterface.simulateApiApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,45 +20,29 @@ import java.util.regex.Pattern;
  * @Description ClientTest
  */
 @SpringBootTest(classes = simulateApiApplication.class)
-public class ClientTest {
+class ClientTest {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Test
-    public void testName() {
-//        String accessKey = "sheldon";
-//        String secretKey = "sheldon";
-//        ApiClient apiClient = new ApiClient(accessKey, secretKey);
-//        String res01 = apiClient.getName("sheldon01");
-//        String res02 = apiClient.postName("sheldon02");
-//        User user = new User();
-//        user.setUsername("sheldon03");
-//        String res03 = apiClient.postJson(user);
-//        System.out.println(res01);
-//        System.out.println(res02);
-//        System.out.println(res03);
-
-    }
-
-    @Test
-    public void testSign() {
+    void testSign() {
         String i = new Random().nextInt(1000) + "";
         // 查询
         System.out.println(stringRedisTemplate.opsForValue().get(i));
     }
 
     @Test
-    public void insertMore() {
+    void insertMore() {
         // 设置插入的数据数量
-        int numberOfEntries = 1000;
+        int numberOfEntries = 100;
 
         for (int i = 1; i <= numberOfEntries; i++) {
             // 生成随机毒鸡汤语录
             String chickenSoup = generateRandomChickenSoup();
 
             // 插入数据到Redis（这里省略了实际插入到Redis的代码）
-            stringRedisTemplate.opsForValue().set(i + "", chickenSoup);
+            stringRedisTemplate.opsForValue().set("myInterfaceInfo:ChickenSoup:" + i, chickenSoup);
 //            stringRedisTemplate.delete("chickenSoup" + i);
         }
 
@@ -172,6 +157,20 @@ public class ClientTest {
         // 从数组中随机选择一个毒鸡汤语录
         int randomIndex = new Random().nextInt(chickenSoupList.size());
         return chickenSoupList.get(randomIndex);
+    }
+
+    @Test
+    void generateUserName() {
+        String name = "johnsmith01,emilybrown02,microphones03,sarahwilson04,davidmartinez05,laurajohnson06,matthewthomas07,ashleywilliams08,christopherdavis09,amandajackson10,roberttaylor11,jenniferlee12,danielsanchez13,elizabethhernandez14,williamlopez15,samanthamartin16,joshuagarcia17,melissamartinez18,alexandermiller19,olivertaylor20,danielrodriguez21,ameliacohen22,ethananderson23,graceyoung24,liamthompson25,isabellamartinez26,charlesbrown27,sophiawilliams28,ryanjohnson29,emmarobinson30,nathanmartinez31,zoeydavis32,adambrown33,elizabethwilson34,jacobwhite35,sophiasanchez36,masonjones37,avaadams38,josephrodriguez39,olivialee40,williamgarcia41,avamoore42,jackperez43,miajackson44,samuelsmith45,emilywilson46,jameshernandez," +
+                "emilythomas48,alexanderdavis49,emilyjones50,williamthomas51,emilydavis52,olivertaylor53,emilyjackson54,olivertaylor55,emilyrobinson56,olivertaylor57,emilymartinez58,olivertaylor59,emilylopez60,olivertaylor61,emilymartin62,olivertaylor63,emilygarcia64,olivertaylor65,emilymartinez66,olivertaylor67,emilycohen68,olivertaylor69,emilyanderson70,olivertaylor71,emilyyoung72,olivertaylor73,emilythompson74,olivertaylor75,emilymartinez76,olivertaylor77,emilybrown78,olivertaylor79,emilywilliams80,olivertaylor81,emilydavis82,olivertaylor83,emilywilson84,olivertaylor85,emilywhite86,olivertaylor87,emilysanchez88,olivertaylor89,emilyjones90,olivertaylor91,emilygarcia92,olivertaylor93,emilyadams94,olivertaylor95,emilyperez96,olivertaylor97,emilyjackson98,olivertaylor99,emilysmith100,olivertaylor101,emilybrown102,olivertaylor103,emilyjones104,olivertaylor105,emilythomas106,olivertaylor107,emilydavis108,olivertaylor109,emilytaylor110,olivertaylor111,emilyjackson112,olivertaylor113,emilyrobinson114,olivertaylor115,emilymartinez116,olivertaylor117,emilylopez118,olivertaylor119,emilymartin120,olivertaylor121,emilygarcia122,olivertaylor123,emilymartinez124,olivertaylor125,emilycohen126,olivertaylor127,emilyanderson128,olivertaylor129";
+        String[] names = name.split(",");
+        ArrayList<String> list = ListUtil.toList(names);
+        for (int i = 0; i < 100; i++) {
+            String item = list.get(i);
+            stringRedisTemplate.opsForValue().set("myInterfaceInfo:UserName:" + i, item);
+
+        }
+
     }
 
 

@@ -22,10 +22,19 @@ public class MyController {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    @GetMapping("/poisonous_chicken_soup")
+    Random random = new Random();
+
+    @GetMapping("/chicken_soup")
     public String getPoisonousChickenSoup(){
-        String i = new Random().nextInt(1000) + "";
-        return stringRedisTemplate.opsForValue().get(i);
+        String rValue = String.valueOf(random.nextInt(100));
+        return stringRedisTemplate.opsForValue().get("myInterfaceInfo:ChickenSoup:" + rValue);
+
+    }
+
+    @GetMapping("/user_name")
+    public String getUserName(){
+        String rValue = String.valueOf(random.nextInt(100));
+        return stringRedisTemplate.opsForValue().get("myInterfaceInfo:UserName:" + rValue);
 
     }
 
