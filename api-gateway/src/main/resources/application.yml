@@ -14,12 +14,11 @@ spring:
           predicates:
             - Path=/api/**
       ## 整合sentinel，配置sentinel控制台的地址
-      sentinel:
-        transport:
-          ## 指定控制台的地址，默认端口8080
-          ashboard: localhost:8080
-          # 取消控制台懒加载，项目启动即连接Sentinel
-          eager: true
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8080
+
       scg:
         fallback:
           mode: response
